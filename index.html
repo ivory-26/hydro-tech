@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydro-Tech Industrial Solutions</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Google Font: Playfair Display (for value words) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Google Font: EB Garamond (for hero reveal) -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&display=swap" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --blob-svg: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M85.8,57.4C85.1,73,69.2,84.1,53.5,86.5C37.8,88.9,22.3,82.6,12.9,71.2C3.5,59.8,-0,43.3,4,29.1C8,14.9,19.5,3,32.4,1.6C45.3,0.2,59.6,9.3,69.5,20.4C79.4,31.5,86.5,41.8,85.8,57.4Z" /></svg>');
+        }
+
+        /* Base styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* New display font for value words */
+        .font-value-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Font for the hero text reveal effect */
+        .font-serif-reveal {
+            font-family: 'EB Garamond', serif;
+        }
+
+        #hero-image {
+            filter: brightness(0.7) contrast(1.1);
+        }
+
+        /* Pulsing animation for the scroll indicator */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        #scroll-indicator {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Staggered letter animation setup */
+        .stagger-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .stagger-letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.6s cubic-bezier(0.2, 1, 0.4, 1);
+        }
+
+        /* Hide scrollbars for marquee wrapper */
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Infinite marquee animation */
+        .animate-marquee {
+            animation: marquee-scroll 30s linear infinite;
+        }
+        
+        .marquee-content-inner {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-width: 100%;
+        }
+
+        @keyframes marquee-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        
+        /* Custom form input styles */
+        .form-input {
+            background-color: #111;
+            border: 1px solid #333;
+            color: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #a3e635; /* lime-400 */
+            box-shadow: 0 0 0 2px #a3e635;
+        }
+
+        /* Custom button styling */
+        .btn-primary {
+            background-color: #a3e635; /* lime-400 */
+            color: #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 9999px; /* full */
+            padding: 0.75rem 1.5rem;
+            transition: transform 0.2s ease-out, background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background-color: #bef264; /* lime-300 */
+        }
+        
+        .btn-secondary {
+            border: 2px solid #a3e635;
+            color: #a3e635;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 9999px; /* full */
+            padding: 0.75rem 1.5rem;
+            transition: transform 0.2s ease-out, background-color 0.2s ease, color 0.2s ease;
+        }
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            background-color: #a3e635;
+            color: #000;
+        }
+
+        /* Grid link styling */
+        .grid-link {
+            border: 1px solid #222;
+            background-color: #0a0a0a;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .grid-link:hover {
+            background-color: #111;
+            border-color: #a3e635;
+        }
+
+        /* Progress Bar Styles */
+        #progress-nav {
+            position: fixed;
+            top: 50%;
+            right: 16px; /* 1rem */
+            transform: translateY(-50%);
+            z-index: 40;
+            height: 300px;
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #progress-track {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background-color: #333;
+            border-radius: 2px;
+            background-image: 
+                linear-gradient(to right, transparent 50%, #a3e635 50%, #a3e635 100%),
+                linear-gradient(to left, transparent 50%, #a3e635 50%, #a3e635 100%);
+            background-size: 8px 20px;
+            background-repeat: repeat-y;
+            background-position: calc(50% + 2px) 0, calc(50% - 2px) 0;
+            border-radius: 2px;
+        }
+        
+        #progress-dots {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-dot {
+            width: 20px;
+            height: 20px;
+            background-color: #000;
+            border: 3px solid #3b82f6; /* blue-500 */
+            border-radius: 50%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: #3b82f6;
+            transform: scale(1.1);
+        }
+
+        #water-drop {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            z-index: 1;
+            left: 12px;
+            transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.74, 0.05), opacity 0.4s ease-out;
+        }
+
+        /* --- Blob & Masking Styles --- */
+        #mouse-blob-visual {
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 60%);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.4s cubic-bezier(0.2, 1, 0.4, 1);
+            -webkit-mask-image: var(--blob-svg);
+            mask-image: var(--blob-svg);
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+        }
+        
+        #hero-text-section {
+            position: relative;
+            isolation: isolate;
+        }
+
+        #hero-text-section > .relative {
+            --mask-size: 0px;
+            --mask-x: 50%;
+            --mask-y: 50%;
+        }
+        
+        #hero-text-reveal-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            -webkit-mask-image: var(--blob-svg);
+            mask-image: var(--blob-svg);
+            -webkit-mask-size: var(--mask-size);
+            mask-size: var(--mask-size);
+            -webkit-mask-position: var(--mask-x) var(--mask-y);
+            mask-position: var(--mask-x) var(--mask-y);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        #hero-text-top-layer {
+            position: relative;
+            z-index: 2;
+            -webkit-mask-image: linear-gradient(black, black), var(--blob-svg);
+            mask-image: linear-gradient(black, black), var(--blob-svg);
+            -webkit-mask-size: auto, var(--mask-size);
+            mask-size: auto, var(--mask-size);
+            -webkit-mask-position: 0 0, var(--mask-x) var(--mask-y);
+            mask-position: 0 0, var(--mask-x) var(--mask-y);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
