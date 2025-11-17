@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 import IntroScreen from './components/IntroScreen';
 import ProgressBar from './components/ProgressBar';
 import HeroTextSection from './components/HeroTextSection';
@@ -94,6 +95,7 @@ const App: React.FC = () => {
                 <ContactForm ref={sectionRefs[4]} />
                 <Footer />
             </main>
+            <Analytics />
         </div>
     );
 };
