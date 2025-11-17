@@ -25,7 +25,7 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ style }) => {
         <div id="intro-screen" className="fixed inset-0 h-screen w-screen z-30" style={style}>
             <img 
                 id="hero-image" 
-                src="https://picsum.photos/seed/hydro/1920/1080"
+                src="../assets/intro-image.png"
                 alt="Industrial water purification system" 
                 className="absolute inset-0 w-full h-full object-cover" 
             />
